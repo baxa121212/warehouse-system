@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'dashboard' => 'Dashboard',
+    'products' => 'Products',
+    'categories' => 'Categories',
+    'add_product' => 'Add Product',
+    'add_category' => 'Add Category',
+    'edit_product' => 'Edit Product',
+    'name' => 'Name',
+    'description' => 'Description',
+    'quantity' => 'Quantity',
+    'price' => 'Price',
+    'category' => 'Category',
+    'user' => 'User',
+    'action' => 'Action',
+    'save' => 'Save',
+    'update' => 'Update',
+    'delete' => 'Delete',
+    'no_products' => 'No products yet',
+    'no_categories' => 'No categories yet',
+    'welcome' => 'Warehouse Inventory Management System',
+    'subtitle' => 'A modern web application for managing products, categories, and stock levels',
+    'total_products' => 'Total Products',
+    'total_categories' => 'Total Categories',
+    'low_stock' => 'Low Stock Products',
+    'footer_text' => 'Warehouse system. A web application created for a course project.',
+];
