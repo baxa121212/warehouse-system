@@ -22,16 +22,25 @@ WORKDIR /app
 # Copy project
 COPY . .
 
+# 🔥 CREATE SQLITE DATABASE (МАҢЫЗДЫ)
+RUN mkdir -p database && touch database/database.sqlite
+
+# 🔥 PERMISSIONS (тағы маңызды)
+RUN chmod -R 777 storage database
+
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
 # Generate app key (если нет)
 RUN php artisan key:generate || true
 
-# Laravel cache clear (важно)
+# Laravel cache clear
 RUN php artisan config:clear
 RUN php artisan cache:clear
 RUN php artisan route:clear
+
+# 🔥 MIGRATE (база құрылсын)
+RUN php artisan migrate --force || true
 
 # Port
 EXPOSE 10000
