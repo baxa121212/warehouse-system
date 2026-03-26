@@ -22,20 +22,17 @@ WORKDIR /app
 # Copy project
 COPY . .
 
-# 🔥 SQLite база жасау
+# SQLite база
 RUN mkdir -p /app/database && touch /app/database/database.sqlite
 
-# 🔥 Permissions
+# Permissions
 RUN chmod -R 777 storage database
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Key (если нет)
+# Key
 RUN php artisan key:generate || true
 
-# Port
-EXPOSE 10000
-
-# 🔥 ЕҢ ДҰРЫС ВАРИАНТ (runtime кезінде)
+# ❗ ЕНГІЗУ: migrate + server бірге
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
