@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 # PHP extensions
 RUN docker-php-ext-install pdo pdo_sqlite
 
-# Composer install
+# Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Work directory
@@ -22,25 +22,25 @@ WORKDIR /app
 # Copy project
 COPY . .
 
-# 🔥 CREATE SQLITE DATABASE (МАҢЫЗДЫ)
-RUN mkdir -p database && touch database/database.sqlite
+# 🔥 SQLite база жасау
+RUN mkdir -p /app/database && touch /app/database/database.sqlite
 
-# 🔥 PERMISSIONS (тағы маңызды)
+# 🔥 Permissions
 RUN chmod -R 777 storage database
 
 # Install dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Generate app key (если нет)
+# Key (если нет)
 RUN php artisan key:generate || true
 
-# Laravel cache clear
-RUN php artisan config:clear
-RUN php artisan cache:clear
-RUN php artisan route:clear
+# 🔥 ЕҢ МАҢЫЗДЫ — миграция
+RUN php artisan migrate --force
 
-# 🔥 MIGRATE (база құрылсын)
-RUN php artisan migrate --force || true
+# ❌ ОСЫЛАРДЫ АЛЫП ТАСТАДЫҚ (қате беретін)
+# RUN php artisan config:clear
+# RUN php artisan cache:clear
+# RUN php artisan route:clear
 
 # Port
 EXPOSE 10000
