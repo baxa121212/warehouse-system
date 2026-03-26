@@ -8,7 +8,9 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \
     libonig-dev \
     libxml2-dev \
-    zip
+    zip \
+    nodejs \
+    npm
 
 # PHP extensions
 RUN docker-php-ext-install pdo pdo_sqlite
@@ -25,16 +27,20 @@ COPY . .
 # Permissions
 RUN chmod -R 777 storage
 
-# Install dependencies
+# Install PHP deps
 RUN composer install --no-dev --optimize-autoloader
+
+# 🔥 FRONTEND BUILD
+RUN npm install
+RUN npm run build
 
 # Key
 RUN php artisan key:generate || true
 
-# PORT
+# Port
 EXPOSE 10000
 
-# 🔥 ЕҢ МАҢЫЗДЫ — runtime setup
+# 🔥 RUNTIME
 CMD mkdir -p /app/database && \
     touch /app/database/database.sqlite && \
     chmod -R 777 /app/database && \
