@@ -34,16 +34,8 @@ RUN composer install --no-dev --optimize-autoloader
 # Key (если нет)
 RUN php artisan key:generate || true
 
-# 🔥 ЕҢ МАҢЫЗДЫ — миграция
-RUN php artisan migrate --force
-
-# ❌ ОСЫЛАРДЫ АЛЫП ТАСТАДЫҚ (қате беретін)
-# RUN php artisan config:clear
-# RUN php artisan cache:clear
-# RUN php artisan route:clear
-
 # Port
 EXPOSE 10000
 
-# Run server
-CMD php artisan serve --host=0.0.0.0 --port=10000
+# 🔥 ЕҢ ДҰРЫС ВАРИАНТ (runtime кезінде)
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000
